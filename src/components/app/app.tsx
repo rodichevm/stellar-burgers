@@ -20,7 +20,6 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import { fetchUser, setIsAuthChecked } from '../../services/slices/userSlice';
 import { getCookie } from '../../utils/cookie';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
-import { resetOrderModalData } from '../../services/slices/orderSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,7 +28,6 @@ const App = () => {
   const state = location.state as { background?: Location };
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(resetOrderModalData());
     const token = getCookie('accessToken');
     if (token) {
       dispatch(fetchUser());
@@ -40,7 +38,6 @@ const App = () => {
 
   const handleCloseModal = () => {
     navigate(-1);
-    dispatch(resetOrderModalData());
   };
 
   return (

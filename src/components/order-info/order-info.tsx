@@ -4,7 +4,10 @@ import { OrderInfoUI } from '@ui';
 import { TIngredient } from '@utils-types';
 import { useDispatch, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
-import { fetchOrder } from '../../services/slices/orderSlice';
+import {
+  fetchOrder,
+  resetOrderModalData
+} from '../../services/slices/orderSlice';
 
 export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
@@ -15,7 +18,10 @@ export const OrderInfo: FC = () => {
   );
   useEffect(() => {
     dispatch(fetchOrder(Number(number)));
-  }, [dispatch]);
+    return () => {
+      dispatch(resetOrderModalData());
+    };
+  }, [dispatch, number]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
