@@ -48,7 +48,6 @@ export const ordersSlice = createSlice({
   reducers: {
     resetOrderModalData(state) {
       state.orderModalData = null;
-      console.log(state.orderModalData);
     }
   },
   extraReducers: (builder) => {
