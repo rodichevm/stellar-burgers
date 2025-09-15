@@ -1,25 +1,40 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import { RegisterUI } from '@ui-pages';
+import { useDispatch, useSelector } from '../../services/store';
+import { register } from '../../services/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from '../../hooks/useForm';
 
 export const Register: FC = () => {
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [values, handleChange] = useForm({
+    email: '',
+    password: '',
+    name: ''
+  });
+  const { error } = useSelector((state) => state.user);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    dispatch(
+      register({
+        name: values.name,
+        email: values.email,
+        password: values.password
+      })
+    );
+    navigate('/profile', { replace: true });
   };
 
   return (
     <RegisterUI
-      errorText=''
-      email={email}
-      userName={userName}
-      password={password}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      setUserName={setUserName}
+      errorText={error?.message}
+      email={values.email}
+      userName={values.name}
+      password={values.password}
       handleSubmit={handleSubmit}
+      onChange={handleChange}
     />
   );
 };
