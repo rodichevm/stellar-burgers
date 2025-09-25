@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": false,
     "jsx": "react-jsx",
-    "types": ["node", "jest", "cypress"],
+    "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
       "@pages": ["src/pages"],
@@ -24,20 +24,11 @@
       "@ui-pages": ["src/components/ui/pages"],
       "@utils-types": ["src/utils/types"],
       "@api": ["src/utils/burger-api.ts"],
+      "@store": ["src/services/store"],
+      "@auth": ["src/utils/auth.ts"],
       "@slices": ["src/services/slices"],
       "@selectors": ["src/services/selectors"]
     }
   },
-  "include": [
-    "src",
-    "cypress.config.ts",
-    "cypress/**/*.ts",
-    "cypress/**/*.tsx",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src"]
 }
