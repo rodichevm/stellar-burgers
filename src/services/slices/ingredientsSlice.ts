@@ -4,7 +4,7 @@ import {
   SerializedError
 } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
-import { getIngredientsApi } from '@api';
+import { getIngredientsApi } from '../../utils/burger-api';
 
 interface TIngredientsState {
   data: TIngredient[];
@@ -12,7 +12,7 @@ interface TIngredientsState {
   error: null | SerializedError;
 }
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   data: [],
   isLoading: true,
   error: null
@@ -42,3 +42,5 @@ export const ingredientsSlice = createSlice({
     });
   }
 });
+
+export default ingredientsSlice.reducer;
