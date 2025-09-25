@@ -1,3 +1,10 @@
+const ATTR_INGREDIENT_TYPE = 'data-ingredient-type';
+const ATTR_INGREDIENT_NAME = 'data-ingredient-name';
+const ATTR_CONSTRUCTOR_ELEMENT_NAME = 'data-constructor-element-name';
+const SELECTOR_MODALS = '#modals';
+const ATTR_ORDER_BUTTON = 'data-order-button';
+const ATTR_BURGER_CONSTRUCTOR = 'data-burger-constructor';
+
 import * as orderFixture from '../fixtures/order.json';
 
 describe('Тестирование конструктор бургера и модальных окон ингредиентов', () => {
@@ -11,86 +18,100 @@ describe('Тестирование конструктор бургера и мо
 
   describe('Тестирование ингредиентов', () => {
     it('Ингредиенты доступны для выбора', () => {
-      cy.get('[data-ingredient-type="bun"]').should('have.length.at.least', 1);
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]`).should(
+        'have.length.at.least',
+        1
+      );
       cy.get(
-        '[data-ingredient-type="main"],[data-ingredient-type="sauce"]'
+        `[${ATTR_INGREDIENT_TYPE}="main"],[${ATTR_INGREDIENT_TYPE}="sauce"]`
       ).should('have.length.at.least', 1);
     });
 
     it('Добавление булки из списка в конструктор', () => {
-      cy.get('[data-ingredient-type="bun"]:first-of-type').as('ingredientBun');
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type`).as(
+        'ingredientBun'
+      );
       cy.get('@ingredientBun').find('button').click();
       cy.get('@ingredientBun')
-        .find('[data-ingredient-name]')
-        .invoke('attr', 'data-ingredient-name')
+        .find(`[${ATTR_INGREDIENT_NAME}]`)
+        .invoke('attr', ATTR_INGREDIENT_NAME)
         .then((name) => {
-          cy.get(`[data-constructor-element-name="${name}"]`).should('exist');
+          cy.get(`[${ATTR_CONSTRUCTOR_ELEMENT_NAME}="${name}"]`).should(
+            'exist'
+          );
         });
     });
+
     it('Добавление начинки из списка в конструктор', () => {
-      cy.get('[data-ingredient-type="main"]:first-of-type').as(
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="main"]:first-of-type`).as(
         'ingredientMain'
       );
       cy.get('@ingredientMain').find('button').click();
       cy.get('@ingredientMain')
-        .find('[data-ingredient-name]')
-        .invoke('attr', 'data-ingredient-name')
+        .find(`[${ATTR_INGREDIENT_NAME}]`)
+        .invoke('attr', ATTR_INGREDIENT_NAME)
         .then((name) => {
-          cy.log(`Ищем элемент с data-ingredient-name="${name}"`);
-          cy.get(`[data-constructor-element-name="${name}"]`).should('exist');
+          cy.get(`[${ATTR_CONSTRUCTOR_ELEMENT_NAME}="${name}"]`).should(
+            'exist'
+          );
         });
     });
+
     it('Добавление соуса из списка в конструктор', () => {
-      cy.get('[data-ingredient-type="sauce"]:first-of-type').as(
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="sauce"]:first-of-type`).as(
         'ingredientSauce'
       );
       cy.get('@ingredientSauce').find('button').click();
       cy.get('@ingredientSauce')
-        .find('[data-ingredient-name]')
-        .invoke('attr', 'data-ingredient-name')
+        .find(`[${ATTR_INGREDIENT_NAME}]`)
+        .invoke('attr', ATTR_INGREDIENT_NAME)
         .then((name) => {
-          cy.log(`Ищем элемент с data-ingredient-name="${name}"`);
-          cy.get(`[data-constructor-element-name="${name}"]`).should('exist');
+          cy.get(`[${ATTR_CONSTRUCTOR_ELEMENT_NAME}="${name}"]`).should(
+            'exist'
+          );
         });
     });
   });
 
   describe('Тестирование модальных окон с описанием ингредиента', () => {
     it('Открытие модального окна', () => {
-      cy.get('[data-ingredient-type="bun"]:first-of-type').click();
-      cy.get('#modals').children().should('have.length', 2);
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type`).click();
+      cy.get(SELECTOR_MODALS).children().should('have.length', 2);
     });
 
     it('Отображение данных выбранного ингредиента в модальном окне', () => {
-      cy.get('[data-ingredient-type="bun"]:first-of-type').click();
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type`).click();
       cy.get(
-        '[data-ingredient-type="bun"]:first-of-type [data-ingredient-name]'
+        `[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type [${ATTR_INGREDIENT_NAME}]`
       )
         .invoke('text')
         .then((ingredientName) => {
-          cy.get('#modals h3').should('contain.text', ingredientName);
+          cy.get(`${SELECTOR_MODALS} h3`).should(
+            'contain.text',
+            ingredientName
+          );
         });
     });
 
     it('Закрытие модального окна через кнопку крестика', () => {
-      cy.get('[data-ingredient-type="bun"]:first-of-type').click();
-      cy.get('#modals button:first-of-type').click();
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type`).click();
+      cy.get(`${SELECTOR_MODALS} button:first-of-type`).click();
       cy.wait(1000);
-      cy.get('#modals').children().should('have.length', 0);
+      cy.get(SELECTOR_MODALS).children().should('have.length', 0);
     });
 
     it('Закрытие модального окна через кнопку Esc', () => {
-      cy.get('[data-ingredient-type="bun"]:first-of-type').click();
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type`).click();
       cy.get('body').type('{esc}');
       cy.wait(1000);
-      cy.get('#modals').children().should('have.length', 0);
+      cy.get(SELECTOR_MODALS).children().should('have.length', 0);
     });
 
     it('Закрытие модального окна через оверлей', () => {
-      cy.get('[data-ingredient-type="bun"]:first-of-type').click();
-      cy.get('#modals>div:nth-of-type(2)').click({ force: true });
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type`).click();
+      cy.get(`${SELECTOR_MODALS}>div:nth-of-type(2)`).click({ force: true });
       cy.wait(1000);
-      cy.get('#modals').children().should('have.length', 0);
+      cy.get(SELECTOR_MODALS).children().should('have.length', 0);
     });
   });
 });
@@ -124,28 +145,28 @@ describe('Процесс создания заказа', () => {
         });
     });
     it('Добавление ингредиентов и создание заказа', () => {
-      cy.get('[data-order-button]').should('be.disabled');
-      cy.get('[data-ingredient-type="bun"]:first-of-type button').click();
-      cy.get('[data-ingredient-type="main"]:first-of-type button').click();
-      cy.get('[data-ingredient-type="sauce"]:first-of-type button').click();
-      cy.get('[data-burger-constructor]')
-        .find('[data-constructor-element-name]')
+      cy.get(`[${ATTR_ORDER_BUTTON}]`).should('be.disabled');
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="bun"]:first-of-type button`).click();
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="main"]:first-of-type button`).click();
+      cy.get(`[${ATTR_INGREDIENT_TYPE}="sauce"]:first-of-type button`).click();
+      cy.get(`[${ATTR_BURGER_CONSTRUCTOR}]`)
+        .find(`[${ATTR_CONSTRUCTOR_ELEMENT_NAME}]`)
         .should('have.length', 3);
-      cy.get('[data-order-button]').should('be.enabled');
-      cy.get('[data-order-button]').click();
+      cy.get(`[${ATTR_ORDER_BUTTON}]`).should('be.enabled');
+      cy.get(`[${ATTR_ORDER_BUTTON}]`).click();
       cy.wait('@createOrder');
-      cy.get('#modals').children().should('have.length', 2);
-      cy.get('#modals [data-order-number]').should(
+      cy.get(SELECTOR_MODALS).children().should('have.length', 2);
+      cy.get(`${SELECTOR_MODALS} [data-order-number]`).should(
         'have.text',
         orderFixture.order.number
       );
-      cy.get('#modals button:first-of-type').click();
+      cy.get(`${SELECTOR_MODALS} button:first-of-type`).click();
       cy.wait(1000);
-      cy.get('#modals').children().should('have.length', 0);
-      cy.get('[data-burger-constructor]')
-        .find('[data-constructor-element-name]')
+      cy.get(SELECTOR_MODALS).children().should('have.length', 0);
+      cy.get(`[${ATTR_BURGER_CONSTRUCTOR}]`)
+        .find(`[${ATTR_CONSTRUCTOR_ELEMENT_NAME}]`)
         .should('have.length', 0);
-      cy.get('[data-order-button]').should('be.disabled');
+      cy.get(`[${ATTR_ORDER_BUTTON}]`).should('be.disabled');
     });
   });
 
