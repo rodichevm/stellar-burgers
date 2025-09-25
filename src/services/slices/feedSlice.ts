@@ -3,7 +3,7 @@ import {
   createSlice,
   SerializedError
 } from '@reduxjs/toolkit';
-import { getFeedsApi } from '@api';
+import { getFeedsApi } from '../../utils/burger-api';
 import { TOrdersData } from '@utils-types';
 
 interface TFeedState {
@@ -12,7 +12,7 @@ interface TFeedState {
   isLoading: boolean;
 }
 
-const initialState: TFeedState = {
+export const initialState: TFeedState = {
   isLoading: true,
   error: null,
   data: {
@@ -47,3 +47,5 @@ export const feedSlice = createSlice({
     });
   }
 });
+
+export default feedSlice.reducer;
