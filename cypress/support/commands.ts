@@ -8,9 +8,9 @@ import {
   SELECTOR_MODALS
 } from './constants';
 
-Cypress.Commands.add('getIngredient', (type: TIngredientType) => {
-  return cy.get(`[${ATTR_INGREDIENT_TYPE}="${type}"]:first-of-type`);
-});
+Cypress.Commands.add('getIngredient', (type: TIngredientType) =>
+  cy.get(`[${ATTR_INGREDIENT_TYPE}="${type}"]:first-of-type`)
+);
 
 Cypress.Commands.add('addIngredientToConstructor', (type: TIngredientType) => {
   cy.getIngredient(type).as('ingredient');
@@ -60,6 +60,6 @@ Cypress.Commands.add('getOrderButton', () => cy.get(`[${ATTR_ORDER_BUTTON}]`));
 
 Cypress.Commands.add('getModal', () => cy.get(SELECTOR_MODALS));
 
-Cypress.Commands.add('getRefreshToken', () => {
-  return cy.window().then((win) => win.localStorage.getItem('refreshToken'));
-});
+Cypress.Commands.add('getRefreshToken', () =>
+  cy.window().then((win) => win.localStorage.getItem('refreshToken'))
+);
