@@ -65,17 +65,16 @@ describe('Процесс создания заказа', () => {
   });
 
   describe('Оформление заказа авторизованным пользователем', () => {
-    it('Токен авторизации существует', () => {
+    it('Токены  accessToken и refreshToken существуют', () => {
       cy.getCookie('accessToken')
         .should('exist')
         .then((cookie) => {
           expect(cookie?.value).to.eq(ACCESS_TOKEN);
         });
-    });
-    it('Refresh token существует в localStorage', () => {
-      const refreshToken = localStorage.getItem('refreshToken');
-      expect(refreshToken).to.exist;
-      expect(refreshToken).to.eq(REFRESH_TOKEN);
+      cy.getRefreshToken().then((refreshToken) => {
+        expect(refreshToken).to.exist;
+        expect(refreshToken).to.eq(REFRESH_TOKEN);
+      });
     });
     it('Добавление ингредиентов и создание заказа', () => {
       cy.getOrderButton().should('be.disabled');

@@ -17,5 +17,7 @@ declare namespace Cypress {
     getOrderButton(): Cypress.Chainable<JQuery<HTMLElement>>;
 
     getModal(): Cypress.Chainable<JQuery<HTMLElement>>;
+
+    getRefreshToken(): Cypress.Chainable<string>;
   }
 }

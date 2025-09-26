@@ -59,3 +59,7 @@ Cypress.Commands.add('getConstructor', (expectedCount?: number) => {
 Cypress.Commands.add('getOrderButton', () => cy.get(`[${ATTR_ORDER_BUTTON}]`));
 
 Cypress.Commands.add('getModal', () => cy.get(SELECTOR_MODALS));
+
+Cypress.Commands.add('getRefreshToken', () => {
+  return cy.window().then((win) => win.localStorage.getItem('refreshToken'));
+});
