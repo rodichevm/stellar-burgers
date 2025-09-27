@@ -4,7 +4,11 @@ import {
   createSlice,
   SerializedError
 } from '@reduxjs/toolkit';
-import { getOrderByNumberApi, getOrdersApi, orderBurgerApi } from '@api';
+import {
+  getOrderByNumberApi,
+  getOrdersApi,
+  orderBurgerApi
+} from '../../utils/burger-api';
 
 type TOrdersState = {
   data: TOrder[];
@@ -85,3 +89,4 @@ export const ordersSlice = createSlice({
 });
 
 export const { resetOrderModalData } = ordersSlice.actions;
+export default ordersSlice.reducer;

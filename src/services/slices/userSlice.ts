@@ -12,17 +12,17 @@ import {
   TLoginData,
   TRegisterData,
   updateUserApi
-} from '@api';
+} from '../../utils/burger-api';
 import { deleteCookie, setCookie } from '../../utils/cookie';
 
-type TUserState = {
+export type TUserState = {
   isAuthenticated: boolean;
   isAuthChecked: boolean;
   user: TUser;
   error: SerializedError | null;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   isAuthChecked: false,
   isAuthenticated: false,
   error: null,
@@ -32,7 +32,7 @@ const initialState: TUserState = {
   }
 };
 
-const setTokens = (accessToken: string, refreshToken: string) => {
+export const setTokens = (accessToken: string, refreshToken: string) => {
   localStorage.setItem('refreshToken', String(refreshToken));
   setCookie('accessToken', String(accessToken));
 };
@@ -145,3 +145,4 @@ export const userSlice = createSlice({
 
 export const { getIsAuthChecked } = userSlice.selectors;
 export const { setIsAuthChecked } = userSlice.actions;
+export default userSlice.reducer;
